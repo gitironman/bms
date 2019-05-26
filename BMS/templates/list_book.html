@@ -1,0 +1,66 @@
+{% extends 'master.html' %}
+{% block title %}
+    <h3 class="panel-title">书籍列表</h3>
+{% endblock title %}
+
+{% block content %}
+    {% csrf_token %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>名称</th>
+            <th>价格</th>
+            <th>出版社</th>
+            <th>出版日期</th>
+            <th>作者</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.price }}</td>
+                <td>{{ book.publish.name }}</td>
+                <td>{{ book.pub_date|date:'Y-m-d' }}</td>
+                <td>
+                    {% for author in  book.authors.all %}
+                        {{ author.name }}&nbsp
+                    {% endfor %}
+                </td>
+                <td><a class="btn btn-info" href="{% url 'edit_book' book_id=book.id %}">编辑</a>
+                    &nbsp
+                    <button class="btn btn-danger del_book" value={{ book.id }}>删除</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $('.del_book').on('click', function () {
+            console.log($(this).val());
+            let book_ele = $(this).parent().parent();
+            $.ajax({
+                url: '{% url 'del_book' %}',
+                type: 'post',
+                headers: {'X-CSRFToken': $("[name='csrfmiddlewaretoken']").val()},
+                contentType: 'json',
+                data: JSON.stringify({
+                    'book_id': $(this).val()
+                }),
+                success: function (ret) {
+                    if (ret.status) {
+                        book_ele.html("<td></td><td colsapn='6'><span style='color:red'>已删除!</span></td>")
+                    } else {
+                        alert('服务器吃撑了')
+                    }
+                }
+            })
+        })
+    </script>
+{% endblock content %}
+
+

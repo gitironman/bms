@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统</title>
+    <link href="/static/images/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'list_book' %}">图书管理系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">搜索</a></li>
+                <li><a>欢迎您：{{ user.username }}</a></li>
+                <li><a href="{% url 'set_pwd' %}">修改密码</a></li>
+                <li><a href="{% url 'logout' %}">注销</a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="{% url 'list_book' %}">书籍列表 <span class="sr-only">(current)</span></a></li>
+                <li><a href="{% url 'add_book' %}">新增书籍</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {% block title %}
+                    {% endblock title %}
+                </div>
+
+                <div class="panel-body">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+</html>

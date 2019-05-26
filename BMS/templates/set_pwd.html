@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统修改密码</title>
+    <link href="/static/images/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+
+<form class="form-signin" action="" method="post" novalidate>
+    {% csrf_token %}
+    <h2 class="form-signin-heading text-center">图书管理系统修改密码</h2>
+    {% for field in form %}
+        <div class="form-control">
+            <label for="id_{{ field.name }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.name == 'r_password' %}
+                <span class="form-signin-heading err_msg text-center">{{ field.errors.0 }}{{ clear_errors.0 }}</span>
+            {% elif field.name == 'o_password' %}
+                <span class="form-signin-heading err_msg text-center">{{ field.errors.0 }}</span>
+                <span class="form-signin-heading err_msg text-center">{{ msg }}</span>
+            {% else %}
+                <span class="form-signin-heading err_msg text-center">{{ field.errors.0 }}</span>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-lg btn-primary btn-block login_btn">
+    <span class="form-signin-heading err_msg text-center text-danger">{{ ret.msg }}</span><br>
+    <a class="btn btn-lg btn-primary btn-block login_btn" href="{% url 'list_book' %}">返回首页</a>
+</form>
+</body>
+</html>
